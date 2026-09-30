@@ -1,0 +1,58 @@
+---
+import RecordCard from '../components/RecordCard.astro';
+import { demoPerson, latestRecords } from '../data/mock';
+import SiteLayout from '../layouts/SiteLayout.astro';
+
+export function getStaticPaths() {
+  return [{ params: { handle: demoPerson.handle }, props: { person: demoPerson } }];
+}
+
+const { person } = Astro.props;
+const records = latestRecords.filter((record) => record.personId === person.id);
+const description = `该公开账号相关的互联网公开记录。@${person.handle} 的档案与时间线。`;
+---
+
+<SiteLayout
+  title={`${person.displayName} (@${person.handle}) - Internet Memory`}
+  description={description}
+  canonicalPath={`/@${person.handle}`}
+>
+  <main class="mx-auto max-w-6xl px-5 py-10 sm:px-8 sm:py-14">
+    <section class="flex flex-col gap-5 border-b border-slate-200 pb-8 sm:flex-row sm:items-center">
+      <div
+        aria-hidden="true"
+        class="flex size-20 shrink-0 items-center justify-center rounded-full bg-cyan-100 text-xl font-bold text-cyan-900"
+      >
+        IM
+      </div>
+      <div class="min-w-0 flex-1">
+        <h1 class="text-2xl font-bold tracking-tight">{person.displayName}</h1>
+        <p class="mt-1 text-slate-600">@{person.handle}</p>
+        <p class="mt-2 text-xs text-slate-500">演示档案；并非真实人物信息。</p>
+      </div>
+      <a
+        class="w-fit rounded-lg border border-slate-300 px-4 py-2.5 text-sm font-semibold hover:bg-white"
+        href={person.profileUrl}
+        rel="noreferrer noopener"
+        target="_blank"
+      >
+        打开 X 原主页
+      </a>
+    </section>
+
+    <section class="pt-8" aria-labelledby="timeline-heading">
+      <h2 class="mb-5 text-xl font-bold" id="timeline-heading">
+        公开记录时间线
+      </h2>
+      <div class="space-y-4">
+        {records.length > 0 ? (
+          records.map((record) => <RecordCard record={record} />)
+        ) : (
+          <p class="rounded-xl border border-slate-200 bg-white p-5 text-sm text-slate-600">
+            暂无公开记录。
+          </p>
+        )}
+      </div>
+    </section>
+  </main>
+</SiteLayout>

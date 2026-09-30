@@ -1,0 +1,23 @@
+---
+import { SubmitWizard } from '../components/SubmitWizard';
+import SiteLayout from '../layouts/SiteLayout.astro';
+---
+
+<SiteLayout
+  title="投稿预览 - Internet Memory"
+  description="Internet Memory 投稿流程预览。Google OAuth 尚未接入。"
+  canonicalPath="/submit"
+  indexable={false}
+>
+  <main class="mx-auto max-w-3xl px-5 py-10 sm:px-8 sm:py-14">
+    <div class="mb-7">
+      <p class="text-sm font-semibold text-cyan-800">CONTRIBUTE</p>
+      <h1 class="mt-2 text-2xl font-bold tracking-tight">提交公开记录</h1>
+      <p class="mt-3 rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm leading-6 text-amber-950">
+        Phase 0 演示：Google OAuth 未接入，当前没有真实登录、上传或保存。后续写操作必须由 Google
+        登录用户完成；Google 登录不等于实名验证。
+      </p>
+    </div>
+    <SubmitWizard client:load />
+  </main>
+</SiteLayout>

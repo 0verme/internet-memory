@@ -1,0 +1,55 @@
+---
+import { PersonSearch } from '../components/PersonSearch';
+import RecordCard from '../components/RecordCard.astro';
+import { latestRecords } from '../data/mock';
+import SiteLayout from '../layouts/SiteLayout.astro';
+---
+
+<SiteLayout
+  title="Internet Memory — 互联网是有记忆的"
+  description="由用户共同维护的公开互联网记录平台。浏览公开 X 账号相关记录与原始来源。"
+>
+  <main class="mx-auto max-w-6xl px-5 sm:px-8">
+    <section class="py-14 sm:py-20">
+      <p class="text-sm font-semibold tracking-wide text-cyan-800">INTERNET MEMORY</p>
+      <h1 class="mt-3 text-3xl font-bold tracking-tight text-slate-950 sm:text-5xl">
+        互联网是有记忆的
+      </h1>
+      <p class="mt-4 max-w-2xl text-base leading-7 text-slate-600 sm:text-lg">
+        共同记录公开互联网中已经发生的内容。按账号与时间查看记录，回到原始来源。
+      </p>
+      <div class="mt-8">
+        <PersonSearch client:load />
+      </div>
+      <p class="mt-3 text-xs text-slate-500">当前为静态 mock：搜索只展示内置的 @demo 档案。</p>
+      <div class="mt-8 flex flex-wrap items-center gap-3">
+        <a
+          class="rounded-lg bg-slate-900 px-4 py-3 text-sm font-semibold text-white hover:bg-slate-700"
+          href="/submit"
+        >
+          Google 登录 · 投稿
+        </a>
+        <span class="text-sm text-slate-500">OAuth 尚未接入；投稿入口展示本地流程预览。</span>
+      </div>
+    </section>
+
+    <section class="border-t border-slate-200 py-10" aria-labelledby="latest-heading">
+      <div class="mb-5 flex items-end justify-between gap-4">
+        <div>
+          <h2 class="text-xl font-bold tracking-tight" id="latest-heading">
+            最新公开记录
+          </h2>
+          <p class="mt-1 text-sm text-slate-500">示例记录并非真实发布内容。</p>
+        </div>
+        <a class="text-sm font-semibold text-cyan-800 underline underline-offset-4" href="/@demo">
+          查看演示档案
+        </a>
+      </div>
+      <div class="space-y-4">
+        {latestRecords.map((record) => (
+          <RecordCard record={record} />
+        ))}
+      </div>
+    </section>
+  </main>
+</SiteLayout>
