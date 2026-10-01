@@ -1,0 +1,71 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description: string;
+  canonicalPath?: string;
+  indexable?: boolean;
+}
+
+const {
+  title,
+  description,
+  canonicalPath: requestedCanonicalPath = Astro.url.pathname,
+  indexable = true,
+} = Astro.props;
+const site = Astro.site ?? new URL('https://internet-memory.pages.dev');
+const canonicalPath =
+  requestedCanonicalPath
+    .replace(/\/index\.html$/, '')
+    .replace(/\.html$/, '')
+    .replace(/\/+$/, '') || '/';
+const canonicalUrl = new URL(canonicalPath, site).toString();
+const socialImage = new URL('/mock-record.svg', site).toString();
+---
+
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <meta name="robots" content={indexable ? 'index, follow' : 'noindex, nofollow'} />
+    <link rel="canonical" href={canonicalUrl} />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Internet Memory" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={socialImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={socialImage} />
+    <meta name="theme-color" content="#f7f8f8" />
+    <title>{title}</title>
+  </head>
+  <body class="min-h-screen bg-[#f7f8f8] text-slate-900 antialiased">
+    <header class="border-b border-slate-200 bg-white">
+      <div class="mx-auto flex max-w-6xl items-center justify-between px-5 py-4 sm:px-8">
+        <a class="text-lg font-bold tracking-tight" href="/">
+          Internet Memory
+        </a>
+        <a
+          class="rounded-lg border border-slate-300 px-3 py-2 text-sm font-semibold hover:bg-slate-50"
+          href="/submit"
+        >
+          Google 登录 · 投稿
+        </a>
+      </div>
+    </header>
+    <slot />
+    <footer class="mt-16 border-t border-slate-200 bg-white">
+      <div class="mx-auto flex max-w-6xl flex-col gap-2 px-5 py-8 text-sm text-slate-500 sm:px-8">
+        <p class="font-medium text-slate-700">Internet Memory · 互联网是有记忆的</p>
+        <p>记录已经公开发布的互联网内容，不建立私人信息数据库，也不裁定内容真假。</p>
+        <p>Google OAuth 与真实投稿尚未接入；页面中的示例内容均为 mock。</p>
+      </div>
+    </footer>
+  </body>
+</html>

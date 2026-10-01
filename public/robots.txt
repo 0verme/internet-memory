@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /submit
+Disallow: /login
+Disallow: /api/
